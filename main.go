@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"goCms/clients"
 	"goCms/services"
 	"net/http"
 )
@@ -10,6 +11,8 @@ func main() {
 
 	service := services.Service{}
 	service.GetConfig()
+	mysql := clients.MysqlClient{}
+	mysql.Connect()
 
 	fmt.Println("Welcome to use the simple golang CMS system.")
 	http.HandleFunc("/health", func(w http.ResponseWriter, req *http.Request) {

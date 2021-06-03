@@ -5,7 +5,7 @@ import "fmt"
 type Service struct {
 }
 
-func (Service) GetConfig() {
+func (s Service) GetConfig() {
 
 	fmt.Println("getting config...")
 
