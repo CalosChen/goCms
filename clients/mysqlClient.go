@@ -24,7 +24,7 @@ func (c MysqlClient) Connect() {
 		username = "root"
 		password = "cst"
 		hostname = "127.0.0.1:3306"
-		dbname   = "ecommerce"
+		dbname   = "godb"
 	)
 
 	//open connection to mysql db
