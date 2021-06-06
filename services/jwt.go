@@ -11,6 +11,11 @@ import (
 	"github.com/dgrijalva/jwt-go"
 )
 
+type CustomClaimsExample struct {
+	Foo string `json:"foo"`
+	jwt.StandardClaims
+}
+
 func CreateJwt() {
 	// Make a sample token
 	// In a real world situation, this token will have been acquired from
@@ -34,8 +39,9 @@ func CreateJwt() {
 
 }
 
-func ParseJwt() {
+func ParseJwt() (interface{}, error) {
 
+	verifyKey := "key"
 	// See func authHandler for an example auth handler that produces a token
 	res, err := http.PostForm(fmt.Sprintf("http://localhost:%v/authenticate", "8080"), url.Values{
 		"user": {"test"},
@@ -64,6 +70,7 @@ func ParseJwt() {
 	fatal(err)
 
 	claims := token.Claims.(*CustomClaimsExample)
+	return claims, nil
 }
 
 func fatal(err error) {
