@@ -65,11 +65,13 @@ func ParseJwt() (interface{}, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaimsExample{}, func(token *jwt.Token) (interface{}, error) {
 		// since we only use the one private key to sign the tokens,
 		// we also only use its public counter part to verify
+		// return []byte("AllYourBase"), nil
 		return verifyKey, nil
+
 	})
 	fatal(err)
 
-	claims := token.Claims.(*CustomClaimsExample)
+	claims := token.Claims.(*CustomClaimsExample) //此处为类型转换, type conversion in go using .(type)
 	return claims, nil
 }
 
@@ -77,7 +79,25 @@ func fatal(err error) {
 
 }
 
+type MyCustomClaims struct {
+	Foo string `json:"foo"`
+	jwt.StandardClaims
+}
+
 func createToken(key string) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, jwt.MapClaims{})
-	return token.Raw, nil
+	mySigningKey := []byte("AllYourBase")
+
+	// Create the Claims
+	claims := MyCustomClaims{
+		"bar",
+		jwt.StandardClaims{
+			ExpiresAt: 15000,
+			Issuer:    "test",
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	ss, err := token.SignedString(mySigningKey)
+	fmt.Printf("%v %v", ss, err)
+	return ss, err
 }
