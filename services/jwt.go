@@ -76,7 +76,8 @@ func ParseJwt() (interface{}, error) {
 }
 
 func fatal(err error) {
-
+	test(func(a string) {
+	})
 }
 
 type MyCustomClaims struct {
@@ -100,4 +101,8 @@ func createToken(key string) (string, error) {
 	ss, err := token.SignedString(mySigningKey)
 	fmt.Printf("%v %v", ss, err)
 	return ss, err
+}
+
+func test(cb func(s string)) {
+	cb("")
 }
