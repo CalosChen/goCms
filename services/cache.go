@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	defaultCachedDuration  = 5000
-	defaultCachedNamespace = "goCms."
+	defaultCachedDuration  int    = 5000
+	defaultCachedNamespace string = "goCms."
 )
 
 func Store(key string, obj interface{}) {
